@@ -1,22 +1,19 @@
 import Image from "next/image";
 import { Reveal, SectionHeading } from "./Reveal";
 import { InstagramIcon } from "./icons";
-import { galleryItems } from "@/lib/gallery";
+import { instagramPosts } from "@/lib/instagram";
 import type { Dictionary } from "@/lib/i18n";
-import { site } from "@/lib/site";
+import { site, type Locale } from "@/lib/site";
 
-/**
- * Lightweight "Instagram" strip: six tiles that link to the profile.
- * Swap the sources for real post thumbnails (or a feed widget) when ready.
- */
+/** Instagram strip: six photos from the salon's own posts, each linking to its post. */
 export function InstagramFeed({
   t,
-  alts,
+  locale,
 }: {
   t: Dictionary["instagram"];
-  alts: Record<string, string>;
+  locale: Locale;
 }) {
-  const tiles = galleryItems.slice(0, 6);
+  const tiles = instagramPosts;
   return (
     <section id="instagram" className="section bg-cream">
       <div className="container-x">
@@ -36,15 +33,15 @@ export function InstagramFeed({
           {tiles.map((tile, i) => (
             <Reveal as="li" key={tile.id} delay={i * 60}>
               <a
-                href={site.instagramUrl}
+                href={tile.href}
                 target="_blank"
                 rel="noopener noreferrer"
-                aria-label={`${t.viewPost}: ${alts[tile.id] ?? ""}`}
+                aria-label={`${t.viewPost}: ${tile.alt[locale]}`}
                 className="group relative block aspect-square overflow-hidden rounded-2xl bg-blush-100 shadow-card"
               >
                 <Image
                   src={tile.src}
-                  alt={alts[tile.id] ?? ""}
+                  alt={tile.alt[locale]}
                   fill
                   sizes="(min-width: 1024px) 16vw, 33vw"
                   className="object-cover transition duration-700 group-hover:scale-105"

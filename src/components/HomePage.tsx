@@ -29,7 +29,7 @@ export function HomePage({ locale }: { locale: Locale }) {
         <Testimonials t={t.testimonials} />
         <Booking locale={locale} t={t.booking} privacyHref={localePath(locale, "/privacy")} />
         <Visit t={t.visit} locale={locale} />
-        <InstagramFeed t={t.instagram} alts={t.gallery.items} />
+        <InstagramFeed t={t.instagram} locale={locale} />
       </main>
       <Footer locale={locale} t={t} currentPath="/" />
       <Overlays locale={locale} cookie={t.cookie} whatsapp={t.whatsapp} whatsappMessage={t.booking.whatsappMessage} />

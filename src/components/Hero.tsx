@@ -31,9 +31,11 @@ function HeroLogo({ label }: { label: string }) {
 export function Hero({ t }: { t: Dictionary["hero"] }) {
   return (
     <section className="relative isolate overflow-hidden bg-taupe-900">
-      {/* Full-width background video with a warm veil so the medallion and copy stay legible.
+      {/* Background video. Phones: the whole 16:9 frame as a band across the top, so it isn't
+          cropped to a close-up; the content follows below. Larger screens: full-bleed behind the
+          content with a warm veil so the medallion and copy stay legible.
           The photo (a frame from the video) shows while it loads and for visitors who prefer reduced motion. */}
-      <div className="absolute inset-0 -z-10">
+      <div className="relative -z-10 aspect-video w-full sm:absolute sm:inset-0 sm:aspect-auto">
         <Image
           src={withBase("/images/hero.jpg")}
           alt={t.imageAlt}
@@ -53,12 +55,13 @@ export function Hero({ t }: { t: Dictionary["hero"] }) {
           preload="auto"
           aria-hidden
         />
-        <div className="absolute inset-0 bg-taupe-900/45" />
-        <div className="absolute inset-0 bg-gradient-to-b from-taupe-900/55 via-taupe-900/10 to-taupe-900/85" />
-        <div className="absolute inset-0 bg-[radial-gradient(60%_55%_at_50%_42%,rgba(59,48,43,0.5),transparent_72%)]" />
+        <div className="absolute inset-0 hidden bg-taupe-900/45 sm:block" />
+        {/* Phones: only fade the bottom edge into the dark section; larger screens: full veil */}
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-taupe-900 sm:from-taupe-900/55 sm:via-taupe-900/10 sm:to-taupe-900/85" />
+        <div className="absolute inset-0 hidden bg-[radial-gradient(60%_55%_at_50%_42%,rgba(59,48,43,0.5),transparent_72%)] sm:block" />
       </div>
 
-      <div className="container-x flex min-h-[calc(100svh-4.5rem)] flex-col items-center justify-center py-14 text-center sm:min-h-[calc(100svh-5rem)] sm:py-20">
+      <div className="container-x -mt-12 flex flex-col items-center justify-center pb-16 text-center sm:mt-0 sm:min-h-[calc(100svh-5rem)] sm:py-20">
         <HeroLogo label={site.name} />
 
         <span className="inline-flex animate-fade-up items-center gap-2 rounded-full border border-ivory/30 bg-ivory/10 px-3.5 py-1.5 text-[0.68rem] font-semibold uppercase tracking-[0.26em] text-ivory backdrop-blur-md [animation-delay:200ms]">
