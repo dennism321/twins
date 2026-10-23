@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { withBase } from "@/lib/base-path";
 import { BrandLogo } from "./Logo";
 import { ArrowRightIcon, ChevronDownIcon, SparkleIcon } from "./icons";
 import type { Dictionary } from "@/lib/i18n";
@@ -34,7 +35,7 @@ export function Hero({ t }: { t: Dictionary["hero"] }) {
           The photo (a frame from the video) shows while it loads and for visitors who prefer reduced motion. */}
       <div className="absolute inset-0 -z-10">
         <Image
-          src="/images/hero.jpg"
+          src={withBase("/images/hero.jpg")}
           alt={t.imageAlt}
           fill
           priority
@@ -43,8 +44,8 @@ export function Hero({ t }: { t: Dictionary["hero"] }) {
         />
         <video
           className="absolute inset-0 h-full w-full object-cover motion-reduce:hidden"
-          src="/videos/hero.mp4"
-          poster="/images/hero.jpg"
+          src={withBase("/videos/hero.mp4")}
+          poster={withBase("/images/hero.jpg")}
           autoPlay
           muted
           loop

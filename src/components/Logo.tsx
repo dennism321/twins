@@ -1,10 +1,11 @@
 import Image from "next/image";
+import { withBase } from "@/lib/base-path";
 
 /**
  * The brand emblem. Replace `public/images/logo.png` with the original artwork
  * (square PNG) and every placement — hero, header, footer, admin — updates.
  */
-export const LOGO_SRC = "/images/logo.png";
+export const LOGO_SRC = withBase("/images/logo.png");
 
 /**
  * The emblem's gold ring sits a few percent inside the square canvas (white or

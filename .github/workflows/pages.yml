@@ -1,0 +1,55 @@
+# Publishes a static preview of the site to GitHub Pages:
+# https://dennism321.github.io/twins/
+# Pages only serves plain files, so the booking API and admin page are left out
+# of this build (bookings still work by phone, WhatsApp and Viber).
+name: Deploy preview to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+
+      - name: Remove server-only parts (booking API, admin)
+        run: rm -rf src/app/api "src/app/(el)/admin"
+
+      - name: Build static site
+        run: npx next build
+        env:
+          STATIC_EXPORT: "1"
+          NEXT_PUBLIC_BASE_PATH: /twins
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: out
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

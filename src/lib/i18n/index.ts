@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { el, type Dictionary } from "./el";
 import { en } from "./en";
 import { localePath, site, type Locale } from "@/lib/site";
+import { isStaticPreview } from "@/lib/base-path";
 
 export type { Dictionary };
 
@@ -66,15 +67,18 @@ export function buildMetadata(
       description,
       images: ["/images/hero.jpg"],
     },
-    robots: {
-      index: true,
-      follow: true,
-      googleBot: {
-        index: true,
-        follow: true,
-        "max-image-preview": "large",
-        "max-snippet": -1,
-      },
-    },
+    // Keep the GitHub Pages preview copy out of search results
+    robots: isStaticPreview
+      ? { index: false, follow: false }
+      : {
+          index: true,
+          follow: true,
+          googleBot: {
+            index: true,
+            follow: true,
+            "max-image-preview": "large",
+            "max-snippet": -1,
+          },
+        },
   };
 }

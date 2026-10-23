@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { withBase } from "@/lib/base-path";
 import { BrandLogo } from "./Logo";
 import { FacebookIcon, InstagramIcon, MailIcon, MapPinIcon, PhoneIcon } from "./icons";
 import { HoursList } from "./Visit";
@@ -19,12 +20,12 @@ export function Footer({
   const year = new Date().getFullYear();
 
   const links = [
-    { href: `${home}#story`, label: t.nav.story },
-    { href: `${home}#services`, label: t.nav.services },
-    { href: `${home}#gallery`, label: t.nav.gallery },
-    { href: `${home}#testimonials`, label: t.nav.testimonials },
-    { href: `${home}#booking`, label: t.nav.book },
-    { href: `${home}#visit`, label: t.nav.visit },
+    { href: withBase(`${home}#story`), label: t.nav.story },
+    { href: withBase(`${home}#services`), label: t.nav.services },
+    { href: withBase(`${home}#gallery`), label: t.nav.gallery },
+    { href: withBase(`${home}#testimonials`), label: t.nav.testimonials },
+    { href: withBase(`${home}#booking`), label: t.nav.book },
+    { href: withBase(`${home}#visit`), label: t.nav.visit },
   ];
 
   return (
@@ -114,7 +115,7 @@ export function Footer({
               {t.footer.privacy}
             </Link>
             <a
-              href={localePath(alt, currentPath)}
+              href={withBase(localePath(alt, currentPath))}
               hrefLang={alt}
               lang={alt}
               className="inline-flex items-center gap-1.5 transition hover:text-ivory"

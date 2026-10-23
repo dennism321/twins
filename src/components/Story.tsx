@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { withBase } from "@/lib/base-path";
 import { Reveal } from "./Reveal";
 import { SparkleIcon } from "./icons";
 import type { Dictionary } from "@/lib/i18n";
@@ -13,7 +14,7 @@ export function Story({ t }: { t: Dictionary["story"] }) {
             <div className="relative mx-auto max-w-md lg:max-w-none">
               <div className="relative aspect-[4/5] overflow-hidden rounded-[2rem] shadow-soft">
                 <Image
-                  src="/images/twins-portrait.jpg"
+                  src={withBase("/images/twins-portrait.jpg")}
                   alt={t.portraitAlt}
                   fill
                   sizes="(min-width: 1024px) 45vw, 90vw"
@@ -23,7 +24,7 @@ export function Story({ t }: { t: Dictionary["story"] }) {
               <div className="absolute -bottom-6 -right-1 w-28 overflow-hidden rounded-2xl border-4 border-ivory shadow-card sm:-bottom-8 sm:-right-3 sm:w-44 sm:rounded-3xl lg:-right-10 lg:w-56">
                 <div className="relative aspect-[4/5]">
                   <Image
-                    src="/images/salon-interior.jpg"
+                    src={withBase("/images/salon-interior.jpg")}
                     alt={t.interiorAlt}
                     fill
                     sizes="224px"

@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { withBase } from "@/lib/base-path";
 import { useEffect, useState } from "react";
 import { LogoLockup } from "./Logo";
 import { CloseIcon, MenuIcon } from "./icons";
@@ -38,11 +39,11 @@ export function Header({ locale, t, homeHref, altHref }: Props) {
   }, [open]);
 
   const links = [
-    { href: `${homeHref}#story`, label: t.story },
-    { href: `${homeHref}#services`, label: t.services },
-    { href: `${homeHref}#gallery`, label: t.gallery },
-    { href: `${homeHref}#testimonials`, label: t.testimonials },
-    { href: `${homeHref}#visit`, label: t.visit },
+    { href: withBase(`${homeHref}#story`), label: t.story },
+    { href: withBase(`${homeHref}#services`), label: t.services },
+    { href: withBase(`${homeHref}#gallery`), label: t.gallery },
+    { href: withBase(`${homeHref}#testimonials`), label: t.testimonials },
+    { href: withBase(`${homeHref}#visit`), label: t.visit },
   ];
 
   return (
@@ -79,7 +80,7 @@ export function Header({ locale, t, homeHref, altHref }: Props) {
 
           <div className="flex items-center gap-2 sm:gap-3">
             <a
-              href={altHref}
+              href={withBase(altHref)}
               hrefLang={locale === "el" ? "en" : "el"}
               lang={locale === "el" ? "en" : "el"}
               aria-label={t.switchLangAria}
@@ -87,7 +88,7 @@ export function Header({ locale, t, homeHref, altHref }: Props) {
             >
               {t.switchLang}
             </a>
-            <a href={`${homeHref}#booking`} className="btn-primary hidden !min-h-10 !px-5 !py-2 sm:inline-flex">
+            <a href={withBase(`${homeHref}#booking`)} className="btn-primary hidden !min-h-10 !px-5 !py-2 sm:inline-flex">
               {t.bookShort}
             </a>
             <button
@@ -146,10 +147,10 @@ export function Header({ locale, t, homeHref, altHref }: Props) {
             ))}
           </nav>
           <div className="mt-auto space-y-3 p-5">
-            <a href={`${homeHref}#booking`} onClick={() => setOpen(false)} className="btn-primary w-full">
+            <a href={withBase(`${homeHref}#booking`)} onClick={() => setOpen(false)} className="btn-primary w-full">
               {t.book}
             </a>
-            <a href={altHref} className="btn-outline w-full">
+            <a href={withBase(altHref)} className="btn-outline w-full">
               {locale === "el" ? "English" : "Ελληνικά"}
             </a>
           </div>

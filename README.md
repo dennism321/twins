@@ -5,6 +5,8 @@ Greek (default) and English, with online booking and a small admin page for book
 
 Built by TechAthos with Next.js, Tailwind CSS and PostgreSQL (Drizzle ORM).
 
+**Live preview:** https://dennism321.github.io/twins/ (static copy on GitHub Pages, rebuilt on every push to `main`. The booking form and `/admin` need the full app on a Node host such as Vercel.)
+
 ## Run locally
 
 ```bash
