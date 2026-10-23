@@ -1,0 +1,322 @@
+@import "tailwindcss";
+
+@theme {
+  /* Palette — soft blush, warm ivory, champagne gold, deep taupe */
+  --color-ivory: #fffaf5;
+  --color-ivory-50: #fffdfb;
+  --color-cream: #f8f0e8;
+  --color-blush-50: #fdf6f3;
+  --color-blush-100: #f9ebe6;
+  --color-blush-200: #f2d9d1;
+  --color-blush-300: #e8c1b5;
+  --color-blush-400: #d9a193;
+  --color-blush-500: #c7877a;
+  --color-blush-600: #a86a5f;
+  --color-champagne-100: #f5ebd9;
+  --color-champagne-200: #ead8b8;
+  --color-champagne-300: #dcc08f;
+  --color-gold: #c3a265;
+  --color-gold-dark: #8f6f3a;
+  --color-taupe-50: #f4efec;
+  --color-taupe-100: #e6ddd8;
+  --color-taupe-300: #b8a9a1;
+  --color-taupe-500: #8d7b73;
+  --color-taupe-600: #74635c;
+  --color-taupe-700: #5c4c46;
+  --color-taupe-800: #4a3c37;
+  --color-taupe-900: #3b302b;
+
+  /* Typography — both families ship Greek glyphs */
+  --font-serif: "EB Garamond Variable", "Cormorant Garamond", "Times New Roman", serif;
+  --font-sans: "Manrope Variable", "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+
+  --shadow-soft: 0 18px 50px -24px rgba(90, 60, 50, 0.28);
+  --shadow-card: 0 10px 30px -18px rgba(90, 60, 50, 0.25);
+  --shadow-glow: 0 0 0 6px rgba(195, 162, 101, 0.14);
+
+  --radius-4xl: 2rem;
+
+  --animate-float: float 6s ease-in-out infinite;
+  --animate-fade-in: fade-in 0.9s ease-out both;
+  --animate-fade-up: fade-up 0.9s cubic-bezier(0.22, 1, 0.36, 1) both;
+  --animate-marquee: marquee 40s linear infinite;
+
+  @keyframes float {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-8px);
+    }
+  }
+  @keyframes fade-in {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+  @keyframes fade-up {
+    from {
+      opacity: 0;
+      transform: translateY(18px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  @keyframes marquee {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-50%);
+    }
+  }
+}
+
+/* Review carousel: gold bar that fills while a review is on show */
+@keyframes review-progress {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+  body {
+    @apply bg-ivory font-sans text-taupe-900 antialiased;
+    font-feature-settings: "ss01", "kern";
+  }
+  h1,
+  h2,
+  h3,
+  h4 {
+    @apply font-serif;
+    text-wrap: balance;
+  }
+  p {
+    text-wrap: pretty;
+  }
+  ::selection {
+    background: #f2d9d1;
+    color: #3b302b;
+  }
+  :focus-visible {
+    outline: 2px solid #c3a265;
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
+
+@layer components {
+  .container-x {
+    @apply mx-auto w-full max-w-6xl px-5 sm:px-8;
+  }
+  .eyebrow {
+    @apply inline-flex items-center gap-3 text-[0.7rem] font-semibold uppercase tracking-[0.28em] text-gold-dark;
+  }
+  .eyebrow::before {
+    content: "";
+    @apply h-px w-8 bg-gold;
+  }
+  .btn,
+  .btn-primary,
+  .btn-gold,
+  .btn-outline,
+  .btn-ghost {
+    @apply inline-flex min-h-12 items-center justify-center gap-2 rounded-full px-6 py-3 text-sm font-semibold tracking-wide transition-all duration-300 ease-out;
+  }
+  .btn-primary {
+    @apply bg-taupe-900 text-ivory shadow-card hover:-translate-y-0.5 hover:bg-taupe-800 hover:shadow-soft active:translate-y-0;
+  }
+  .btn-gold {
+    @apply bg-gradient-to-r from-champagne-300 via-gold to-champagne-300 bg-[length:200%_100%] bg-left text-taupe-900 shadow-card hover:-translate-y-0.5 hover:bg-right hover:shadow-soft;
+  }
+  .btn-outline {
+    @apply border border-taupe-900/20 bg-white/40 text-taupe-900 backdrop-blur hover:border-gold hover:bg-white/80;
+  }
+  .btn-ghost {
+    @apply px-4 text-taupe-700 hover:bg-blush-100 hover:text-taupe-900;
+  }
+  .card {
+    @apply rounded-3xl border border-blush-200/70 bg-white/70 shadow-card backdrop-blur-sm;
+  }
+  .field {
+    @apply w-full rounded-2xl border border-blush-200 bg-white/80 px-4 py-3 text-base text-taupe-900 placeholder:text-taupe-300 transition focus:border-gold focus:bg-white focus:shadow-glow focus:outline-none;
+  }
+  .field-error {
+    @apply border-blush-500 focus:border-blush-500;
+  }
+  .select {
+    appearance: none;
+    padding-right: 2.75rem;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%238d7b73' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='m6 9 6 6 6-6'/></svg>");
+    background-repeat: no-repeat;
+    background-position: right 1rem center;
+    background-size: 16px;
+  }
+  .label {
+    @apply mb-1.5 block text-sm font-semibold text-taupe-700;
+  }
+  .section {
+    @apply py-20 sm:py-28;
+  }
+  .heading-xl {
+    @apply font-serif text-[2.6rem] leading-[1.05] font-medium tracking-tight text-taupe-900 sm:text-6xl lg:text-7xl;
+  }
+  .heading-lg {
+    @apply font-serif text-4xl leading-[1.1] font-medium tracking-tight text-taupe-900 sm:text-5xl;
+  }
+  .heading-md {
+    @apply font-serif text-2xl leading-tight font-medium text-taupe-900 sm:text-3xl;
+  }
+  .lead {
+    @apply text-base leading-relaxed text-taupe-600 sm:text-lg;
+  }
+  .grain {
+    background-image:
+      radial-gradient(at 20% 10%, rgba(242, 217, 209, 0.55) 0, transparent 50%),
+      radial-gradient(at 85% 20%, rgba(245, 235, 217, 0.6) 0, transparent 45%),
+      radial-gradient(at 50% 100%, rgba(249, 235, 230, 0.6) 0, transparent 55%);
+  }
+}
+
+/* ── Hero medallion: full 360° turn around the vertical axis, east → west ──
+   Negative rotateY = the right (east) edge swings toward the viewer and
+   travels over to the left (west). The turn takes ~70% of the cycle, then the
+   emblem rests face-on so it can be read before the next revolution. */
+@keyframes logo-spin-ew {
+  0% {
+    transform: rotateY(0deg);
+  }
+  70% {
+    transform: rotateY(-360deg);
+  }
+  100% {
+    transform: rotateY(-360deg);
+  }
+}
+.logo-stage {
+  position: relative;
+  width: clamp(11rem, 46vw, 22rem);
+  aspect-ratio: 1 / 1;
+  perspective: 1400px;
+}
+.logo-glow {
+  position: absolute;
+  inset: 4%;
+  border-radius: 9999px;
+  background: radial-gradient(
+    closest-side,
+    rgba(234, 216, 173, 0.6),
+    rgba(234, 216, 173, 0.18) 58%,
+    transparent 100%
+  );
+  filter: blur(28px);
+  transform: translateY(6%) scale(1.18);
+  pointer-events: none;
+}
+.logo-coin {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  animation: logo-spin-ew 14s cubic-bezier(0.6, 0, 0.2, 1) 1.4s infinite;
+  will-change: transform;
+}
+.logo-stage:hover .logo-coin,
+.logo-stage:focus-within .logo-coin {
+  animation-play-state: paused;
+}
+.logo-face {
+  position: absolute;
+  inset: 0;
+  border-radius: 9999px;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  box-shadow: 0 34px 70px -32px rgba(20, 12, 9, 0.75);
+}
+.logo-face-back {
+  transform: rotateY(180deg);
+}
+
+/* Scroll-reveal — only hides content once JS has confirmed it can reveal it */
+.js .reveal {
+  opacity: 0;
+  transform: translateY(22px);
+  transition:
+    opacity 0.9s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+  transition-delay: var(--reveal-delay, 0ms);
+  will-change: opacity, transform;
+}
+.js .reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+@media (prefers-reduced-motion: reduce) {
+  .js .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+
+/* Masonry */
+.masonry {
+  column-count: 2;
+  column-gap: 0.75rem;
+}
+@media (min-width: 768px) {
+  .masonry {
+    column-count: 3;
+    column-gap: 1rem;
+  }
+}
+.masonry > * {
+  break-inside: avoid;
+  margin-bottom: 0.75rem;
+}
+@media (min-width: 768px) {
+  .masonry > * {
+    margin-bottom: 1rem;
+  }
+}
+
+/* Hide scrollbar for horizontal pill rows */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Native date input: keep the taupe text on iOS */
+input[type="date"] {
+  -webkit-appearance: none;
+  appearance: none;
+  min-height: 3.125rem;
+}
