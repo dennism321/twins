@@ -11,7 +11,8 @@ export function RootShell({ locale, children }: { locale: Locale; children: Reac
   return (
     // The inline script below adds the "js" class before React loads, so the
     // class differs from the server HTML on purpose.
-    <html lang={locale} className="scroll-smooth" suppressHydrationWarning>
+    // data-scroll-behavior lets Next.js turn smooth scrolling off while it jumps to the top of a new page
+    <html lang={locale} className="scroll-smooth" data-scroll-behavior="smooth" suppressHydrationWarning>
       {/* App Router root layouts own <head>; next/head is for the Pages Router */}
       {/* eslint-disable-next-line @next/next/no-head-element */}
       <head>

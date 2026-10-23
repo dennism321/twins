@@ -2,7 +2,8 @@
 
 import Link from "next/link";
 import { withBase } from "@/lib/base-path";
-import { useEffect, useState } from "react";
+import { usePathname } from "next/navigation";
+import { useEffect, useState, type MouseEvent } from "react";
 import { LogoLockup } from "./Logo";
 import { CloseIcon, MenuIcon } from "./icons";
 import type { Dictionary } from "@/lib/i18n";
@@ -15,9 +16,42 @@ type Props = {
   altHref: string;
 };
 
+const trimSlash = (p: string) => (p.length > 1 ? p.replace(/\/+$/, "") : p);
+
 export function Header({ locale, t, homeHref, altHref }: Props) {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
+  const pathname = usePathname();
+  const onHome = trimSlash(pathname) === trimSlash(homeHref);
+
+  /** Logo click on the home page: glide back to the top (and drop any #section from the address) */
+  const toTop = (e: MouseEvent) => {
+    setOpen(false);
+    if (!onHome) return; // other pages: the link goes to the home page, which opens at the top
+    e.preventDefault();
+    if (window.location.hash) history.replaceState(null, "", window.location.pathname + window.location.search);
+
+    const scrollUp = () => {
+      const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      if (reduce) {
+        window.scrollTo({ top: 0, behavior: "instant" });
+        return;
+      }
+      window.scrollTo({ top: 0, behavior: "smooth" });
+      // Images loading on the way up can cut a smooth scroll short; finish it if so
+      const finish = () => {
+        window.removeEventListener("scrollend", finish);
+        window.clearTimeout(fallback);
+        if (window.scrollY > 1) window.scrollTo({ top: 0, behavior: "smooth" });
+      };
+      const fallback = window.setTimeout(finish, 1500);
+      window.addEventListener("scrollend", finish);
+    };
+
+    // The open phone menu locks page scrolling; wait until it has closed
+    if (open) window.setTimeout(scrollUp, 60);
+    else scrollUp();
+  };
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 12);
@@ -62,7 +96,7 @@ export function Header({ locale, t, homeHref, altHref }: Props) {
         }`}
       >
         <div className="container-x flex h-[4.5rem] items-center justify-between gap-4 sm:h-20">
-          <Link href={homeHref} aria-label={t.home} className="shrink-0">
+          <Link href={homeHref} onClick={toTop} scroll aria-label={t.home} className="shrink-0">
             <LogoLockup compact />
           </Link>
 
@@ -123,7 +157,9 @@ export function Header({ locale, t, homeHref, altHref }: Props) {
           className={`absolute inset-y-0 right-0 flex w-[88%] max-w-sm flex-col bg-ivory shadow-soft transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] ${open ? "translate-x-0" : "translate-x-full"}`}
         >
           <div className="flex h-[4.5rem] items-center justify-between px-5">
-            <LogoLockup compact />
+            <Link href={homeHref} onClick={toTop} scroll aria-label={t.home} className="shrink-0">
+              <LogoLockup compact />
+            </Link>
             <button
               type="button"
               onClick={() => setOpen(false)}
