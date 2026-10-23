@@ -32,17 +32,17 @@ export const site = {
   instagramUrl: "https://www.instagram.com/mytwinsbeautylounge",
   facebookUrl: "https://www.facebook.com/mytwinsbeautylounge",
 
-  // TODO: replace with the real street address & postal code (171 21–171 24)
+  // From the salon's Instagram bio. (Its Google Maps listing uses the corner entrance, Βουρνόβα 2.)
   address: {
-    street: { el: "Ελευθερίου Βενιζέλου 12", en: "12 Eleftheriou Venizelou" },
+    street: { el: "Ιωνίας 1", en: "1 Ionias" },
     city: { el: "Νέα Σμύρνη", en: "Nea Smyrni" },
     region: { el: "Αθήνα", en: "Athens" },
     postalCode: "171 21",
     countryCode: "GR",
     country: { el: "Ελλάδα", en: "Greece" },
   },
-  // Approximate coordinates of Plateia Neas Smyrnis — TODO: fine-tune
-  geo: { lat: 37.9452, lng: 23.7136 },
+  // Ιωνίας 1, Νέα Σμύρνη (OpenStreetMap)
+  geo: { lat: 37.95251, lng: 23.71589 },
 
   /**
    * Opening hours. `days` use JS weekday numbers (0 = Sunday … 6 = Saturday).
